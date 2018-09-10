@@ -1,3 +1,13 @@
+/*
+ImageCache holds all the logic for calculating what docker images can be removed from the running agent.
+The last used time and the number of uses are both taken into account to calculate a score (timeSinceLastUse/uses)
+The higher the score the more evicitable the image is.
+
+ImageCache also provides a method to "lock" an image, insuring it is never deleted. To do so a Lock is called with
+the image ID to lock, as well as a token. The token is then added to a set of tokens attached to that entry.
+The set is a map of *interface -> *interface where both values are the same.
+*/
+
 package docker
 
 import (
