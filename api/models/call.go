@@ -29,7 +29,7 @@ const (
 
 var possibleStatuses = [...]string{"delayed", "queued", "running", "success", "error", "cancelled"}
 
-// Call is a representation of a specific invocation of a route.
+// Call is a representation of a specific invocation of a fn.
 type Call struct {
 	// Unique identifier representing a specific call.
 	ID string `json:"id" db:"id"`
@@ -70,9 +70,6 @@ type Call struct {
 	// * cancelled - cancelled via API. More information in the reason field.
 	//   - client_request - Request was cancelled by a client.
 	Status string `json:"status" db:"status"`
-
-	// Path of the route that is responsible for this call
-	Path string `json:"path" db:"path"`
 
 	// Name of Docker image to use.
 	Image string `json:"image,omitempty" db:"-"`
@@ -122,7 +119,7 @@ type Call struct {
 	// Config is the set of configuration variables for the call
 	Config Config `json:"config,omitempty" db:"-"`
 
-	// Annotations is the set of annotations for the app/route of the call.
+	// Annotations is the set of annotations for the app/fn of the call.
 	Annotations Annotations `json:"annotations,omitempty" db:"-"`
 
 	// Headers are headers from the request that created this call
@@ -161,8 +158,6 @@ type Call struct {
 }
 
 type CallFilter struct {
-	Path     string // match
-	AppID    string // match
 	FnID     string //match
 	FromTime common.DateTime
 	ToTime   common.DateTime
